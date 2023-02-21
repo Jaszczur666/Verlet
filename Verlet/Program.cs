@@ -18,13 +18,22 @@ namespace Verlet
             Stopwatch sw = new Stopwatch();
             sw.Start();
             experiment.Initialize(n, 0.0064);
-            //for (int i = 0; i < experiment.particles.Count; i++) { Console.WriteLine(experiment.particles[i].pos.x); };
+            /*
+            experiment.Ref1();
             experiment.CalculateForcesAndPotential();
+            double korekta = experiment.Ulrc(3.0);
+            Console.WriteLine("Pot ="+experiment.pot+ "korekta na łeb "+korekta+" czyli "+ experiment.particles.Count * korekta + " a po calaku "+(experiment.pot-experiment.particles.Count*korekta));
+            experiment.Ref3();
+            experiment.CalculateForcesAndPotential();
+            korekta = experiment.Ulrc(3.0);
+            Console.WriteLine("Pot =" + experiment.pot + "korekta na łeb " + korekta + " czyli " + experiment.particles.Count * korekta + " a po calaku " + (experiment.pot - experiment.particles.Count * korekta));
+            */
             Console.WriteLine("i  t kin  pot tot tcalc");
             int num_samples = 0;
             for (int i = 0; i < 50000; i++)
             {
                 experiment.Evolve(0.0064);
+            //    Console.WriteLine("POS " + i + " " + experiment.particles[0].pos.x + " " + experiment.particles[0].pos.y+" " + experiment.particles[0].pos.z);
 
                 kin = experiment.CalculateKinetic();
                 //Console.WriteLine(experiment.particles[0].pos.x.ToString("G4") + " " + experiment.particles[0].pos.y.ToString("G4")+" "+experiment.particles[0].v.x.ToString("G5") + " " + experiment.particles[0].v.y.ToString("G5"));
@@ -46,15 +55,16 @@ namespace Verlet
                 }
 
                 pot = experiment.pot;
-                tot = kin/n + pot;
-                if (i % 100 == 0)  Console.WriteLine(i+" "+experiment.t.ToString("G6", ci) + " " + (kin/n).ToString("G6", ci) + " " + (pot).ToString("G6", ci) + " " + (tot).ToString("G6", ci) + " "+(sw.ElapsedMilliseconds/1000.0).ToString("G6", ci));
+                tot = kin + pot;
+                if (i % 100 == 0)  Console.WriteLine(i+" "+experiment.t.ToString("G6", ci) + " " + (kin).ToString("G6", ci) + " " + (pot).ToString("G6", ci) + " " + (tot).ToString("G6", ci) + " "+(sw.ElapsedMilliseconds/1000.0).ToString("G6", ci));
             }
             //Console.Error.WriteLine((sw.ElapsedMilliseconds / 1000.0).ToString("G3", ci));
             //                Console.Error.WriteLine(num_samples+" "+ esr2.ToString("G5") + " "+ esr.ToString("G5") + " " +(esr*esr).ToString("G5"));
-            double c = (esr2 / num_samples - esr * esr / (num_samples * num_samples)) / (n / 0.7 * 0.7);
+            //double c = (esr2 / num_samples - esr * esr / (num_samples * num_samples)) / (n / 0.7 * 0.7);
             //Console.WriteLine((n / (experiment.l * experiment.l)).ToString("G3", ci) + " " + c.ToString("G3", ci)+" "+kin/n+" "+pot/n+" "+tot/n);
-            //Console.WriteLine(experiment.Dumpvelo());
-
+            //Console.Error.WriteLine(experiment.Dumpvelo());
+            //Console.Error.WriteLine(experiment.Dumppositions());
+            //Console.Error.WriteLine(experiment.Dumpdistances());
         }
         static void Main(string[] args)
         {
@@ -110,8 +120,8 @@ namespace Verlet
                             //                doExperiment(n);
                         }
             */
-            doExperiment(735);
-            Console.Error.WriteLine("Zejszło "+glowny.ElapsedMilliseconds / 1000.0);
+            doExperiment(675);
+            //Console.Error.WriteLine("Zejszło "+glowny.ElapsedMilliseconds / 1000.0);
         }
     }
 }
